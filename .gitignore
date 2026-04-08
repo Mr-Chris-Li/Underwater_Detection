@@ -1,0 +1,19 @@
+# 核心：忽略数据挂载目录
+data/
+datasets/
+*.zip
+*.tar.gz
+
+# 忽略训练产物
+runs/
+weights/
+*.pt
+*.onnx
+*.engine
+
+# 忽略系统与开发环境文件
+.DS_Store
+__pycache__/
+.ipynb_checkpoints/
+.vscode/
+.idea/
