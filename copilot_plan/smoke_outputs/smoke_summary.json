@@ -1,0 +1,72 @@
+[
+  {
+    "image": "data/URPC2021/images/val/c000001.jpg",
+    "time_ms": 617.0797348022461,
+    "n_detections": 1,
+    "max_conf": 0.5556276440620422,
+    "mean_conf": 0.5556276440620422
+  },
+  {
+    "image": "data/URPC2021/images/val/c000002.jpg",
+    "time_ms": 27.21548080444336,
+    "n_detections": 1,
+    "max_conf": 0.6558837890625,
+    "mean_conf": 0.6558837890625
+  },
+  {
+    "image": "data/URPC2021/images/val/c000003.jpg",
+    "time_ms": 22.08876609802246,
+    "n_detections": 0,
+    "max_conf": 0.0,
+    "mean_conf": 0.0
+  },
+  {
+    "image": "data/URPC2021/images/val/c000010.jpg",
+    "time_ms": 21.23570442199707,
+    "n_detections": 0,
+    "max_conf": 0.0,
+    "mean_conf": 0.0
+  },
+  {
+    "image": "data/URPC2021/images/val/c000013.jpg",
+    "time_ms": 21.071434020996094,
+    "n_detections": 0,
+    "max_conf": 0.0,
+    "mean_conf": 0.0
+  },
+  {
+    "image": "data/URPC2021/images/val/c000016.jpg",
+    "time_ms": 20.452022552490234,
+    "n_detections": 0,
+    "max_conf": 0.0,
+    "mean_conf": 0.0
+  },
+  {
+    "image": "data/URPC2021/images/val/c000020.jpg",
+    "time_ms": 63.86423110961914,
+    "n_detections": 1,
+    "max_conf": 0.3114835023880005,
+    "mean_conf": 0.3114835023880005
+  },
+  {
+    "image": "data/URPC2021/images/val/c000027.jpg",
+    "time_ms": 62.67046928405762,
+    "n_detections": 1,
+    "max_conf": 0.4329432547092438,
+    "mean_conf": 0.4329432547092438
+  },
+  {
+    "image": "data/URPC2021/images/val/c000028.jpg",
+    "time_ms": 55.31001091003418,
+    "n_detections": 2,
+    "max_conf": 0.4030463397502899,
+    "mean_conf": 0.3307409882545471
+  },
+  {
+    "image": "data/URPC2021/images/val/c000031.jpg",
+    "time_ms": 51.22494697570801,
+    "n_detections": 0,
+    "max_conf": 0.0,
+    "mean_conf": 0.0
+  }
+]

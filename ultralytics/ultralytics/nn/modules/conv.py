@@ -12,6 +12,7 @@ import torch.nn as nn
 __all__ = (
     "CBAM",
     "ChannelAttention",
+    "ECA",
     "Concat",
     "Conv",
     "Conv2",
@@ -25,6 +26,27 @@ __all__ = (
     "RepConv",
     "SpatialAttention",
 )
+
+
+class ECA(nn.Module):
+    """Efficient Channel Attention (ECA) lightweight module.
+
+    This implementation uses global average pooling followed by a 1D conv
+    across the channel dimension with a small kernel (default k=3).
+    """
+
+    def __init__(self, channels: int, k_size: int = 3):
+        super().__init__()
+        self.avg_pool = nn.AdaptiveAvgPool2d(1)
+        self.conv = nn.Conv1d(1, 1, kernel_size=k_size, padding=(k_size - 1) // 2, bias=False)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # x: B, C, H, W -> y: B, 1, C
+        y = self.avg_pool(x).squeeze(-1).squeeze(-1).unsqueeze(1)
+        y = self.conv(y).squeeze(1).unsqueeze(-1).unsqueeze(-1)
+        y = self.sigmoid(y)
+        return x * y
 
 
 def autopad(k, p=None, d=1):  # kernel, padding, dilation

@@ -1,0 +1,44 @@
+{
+  "datasets": {
+    "URPC2021": {
+      "n_images": 7600,
+      "total_labels": 0,
+      "missing_label_files_count": 7600,
+      "missing_label_files_sample": [
+        "data/URPC2021/images/train/c000004.jpg",
+        "data/URPC2021/images/train/c000005.jpg",
+        "data/URPC2021/images/train/c000006.jpg",
+        "data/URPC2021/images/train/c000007.jpg",
+        "data/URPC2021/images/train/c000008.jpg",
+        "data/URPC2021/images/train/c000009.jpg",
+        "data/URPC2021/images/train/c000011.jpg",
+        "data/URPC2021/images/train/c000012.jpg",
+        "data/URPC2021/images/train/c000014.jpg",
+        "data/URPC2021/images/train/c000015.jpg",
+        "data/URPC2021/images/train/c000017.jpg",
+        "data/URPC2021/images/train/c000018.jpg",
+        "data/URPC2021/images/train/c000019.jpg",
+        "data/URPC2021/images/train/c000021.jpg",
+        "data/URPC2021/images/train/c000022.jpg",
+        "data/URPC2021/images/train/c000023.jpg",
+        "data/URPC2021/images/train/c000024.jpg",
+        "data/URPC2021/images/train/c000025.jpg",
+        "data/URPC2021/images/train/c000026.jpg",
+        "data/URPC2021/images/train/c000029.jpg"
+      ],
+      "empty_label_files_count": 0,
+      "empty_label_files_sample": [],
+      "out_of_bounds_count": 0,
+      "out_of_bounds_sample": [],
+      "class_ids": [],
+      "problems_sample": []
+    }
+  },
+  "summary": {
+    "datasets_found": [
+      "URPC2021"
+    ],
+    "total_images": 7600,
+    "total_labels": 0
+  }
+}

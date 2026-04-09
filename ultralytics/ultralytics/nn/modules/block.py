@@ -9,7 +9,7 @@ import torch.nn.functional as F
 
 from ultralytics.utils.torch_utils import fuse_conv_and_bn
 
-from .conv import Conv, DWConv, GhostConv, LightConv, RepConv, autopad
+from .conv import Conv, DWConv, GhostConv, LightConv, RepConv, autopad, CBAM, ChannelAttention, SpatialAttention, ECA
 from .transformer import TransformerBlock
 
 __all__ = (
@@ -320,9 +320,13 @@ class C2f(nn.Module):
 
 
 class C3(nn.Module):
-    """CSP Bottleneck with 3 convolutions."""
+    """CSP Bottleneck with 3 convolutions.
 
-    def __init__(self, c1: int, c2: int, n: int = 1, shortcut: bool = True, g: int = 1, e: float = 0.5):
+    Adds an optional `attn` parameter to apply a lightweight attention module
+    (e.g. CBAM/ChannelAttention/SpatialAttention) to the output features.
+    """
+
+    def __init__(self, c1: int, c2: int, n: int = 1, shortcut: bool = True, g: int = 1, e: float = 0.5, attn=None):
         """Initialize the CSP Bottleneck with 3 convolutions.
 
         Args:
@@ -332,6 +336,9 @@ class C3(nn.Module):
             shortcut (bool): Whether to use shortcut connections.
             g (int): Groups for convolutions.
             e (float): Expansion ratio.
+            attn (str | nn.Module | None): Optional attention specifier. If a string,
+                supported values: 'CBAM', 'Channel', 'Spatial'. If an nn.Module,
+                it will be used directly.
         """
         super().__init__()
         c_ = int(c2 * e)  # hidden channels
@@ -340,9 +347,31 @@ class C3(nn.Module):
         self.cv3 = Conv(2 * c_, c2, 1)  # optional act=FReLU(c2)
         self.m = nn.Sequential(*(Bottleneck(c_, c_, shortcut, g, k=((1, 1), (3, 3)), e=1.0) for _ in range(n)))
 
+        # initialize attention module if requested
+        self.attn = None
+        if attn is not None:
+            if isinstance(attn, str):
+                key = attn.lower()
+                if key == 'cbam':
+                    self.attn = CBAM(c2)
+                elif key in ('channel', 'channelattention'):
+                    self.attn = ChannelAttention(c2)
+                elif key in ('spatial', 'spatialattention'):
+                    self.attn = SpatialAttention()
+                elif key in ('eca', 'efficientchannelattention'):
+                    self.attn = ECA(c2)
+                else:
+                    # unknown string, ignore and keep attn None
+                    self.attn = None
+            elif isinstance(attn, nn.Module):
+                self.attn = attn
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        """Forward pass through the CSP bottleneck with 3 convolutions."""
-        return self.cv3(torch.cat((self.m(self.cv1(x)), self.cv2(x)), 1))
+        """Forward pass through the CSP bottleneck with optional attention."""
+        y = self.cv3(torch.cat((self.m(self.cv1(x)), self.cv2(x)), 1))
+        if self.attn is not None:
+            y = self.attn(y)
+        return y
 
 
 class C3x(C3):
@@ -1093,17 +1122,30 @@ class C3k2(C2f):
             shortcut (bool): Whether to use shortcut connections.
         """
         super().__init__(c1, c2, n, shortcut, g, e)
-        self.m = nn.ModuleList(
-            nn.Sequential(
-                Bottleneck(self.c, self.c, shortcut, g),
-                PSABlock(self.c, attn_ratio=0.5, num_heads=max(self.c // 64, 1)),
-            )
-            if attn
-            else C3k(self.c, self.c, 2, shortcut, g)
-            if c3k
-            else Bottleneck(self.c, self.c, shortcut, g)
-            for _ in range(n)
-        )
+        modules = []
+        for _ in range(n):
+            if attn:
+                # support string specifiers for attention, e.g. 'CBAM', 'channel', 'spatial'
+                if isinstance(attn, str):
+                    key = attn.lower()
+                    if key == 'cbam':
+                        modules.append(nn.Sequential(Bottleneck(self.c, self.c, shortcut, g), CBAM(self.c)))
+                    elif key in ('channel', 'channelattention'):
+                        modules.append(nn.Sequential(Bottleneck(self.c, self.c, shortcut, g), ChannelAttention(self.c)))
+                    elif key in ('spatial', 'spatialattention'):
+                        modules.append(nn.Sequential(Bottleneck(self.c, self.c, shortcut, g), SpatialAttention()))
+                    else:
+                        # default to PSABlock when unknown string provided
+                        modules.append(nn.Sequential(Bottleneck(self.c, self.c, shortcut, g), PSABlock(self.c, attn_ratio=0.5, num_heads=max(self.c // 64, 1))))
+                else:
+                    # boolean True, use PSABlock
+                    modules.append(nn.Sequential(Bottleneck(self.c, self.c, shortcut, g), PSABlock(self.c, attn_ratio=0.5, num_heads=max(self.c // 64, 1))))
+            elif c3k:
+                modules.append(C3k(self.c, self.c, 2, shortcut, g))
+            else:
+                modules.append(Bottleneck(self.c, self.c, shortcut, g))
+
+        self.m = nn.ModuleList(modules)
 
 
 class C3k(C3):

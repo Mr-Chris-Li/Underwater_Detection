@@ -14,7 +14,7 @@ from ultralytics.utils.ops import crop_mask, xywh2xyxy, xyxy2xywh
 from ultralytics.utils.tal import RotatedTaskAlignedAssigner, TaskAlignedAssigner, dist2bbox, dist2rbox, make_anchors
 from ultralytics.utils.torch_utils import autocast
 
-from .metrics import bbox_iou, probiou
+from .metrics import bbox_iou, probiou, wiou_v3
 from .tal import bbox2dist, rbox2dist
 
 
@@ -128,7 +128,11 @@ class BboxLoss(nn.Module):
     ) -> tuple[torch.Tensor, torch.Tensor]:
         """Compute IoU and DFL losses for bounding boxes."""
         weight = target_scores.sum(-1)[fg_mask].unsqueeze(-1)
-        iou = bbox_iou(pred_bboxes[fg_mask], target_bboxes[fg_mask], xywh=False, CIoU=True)
+        # support optional WIoU v3 via attribute `self.wiou` (set by v8DetectionLoss if desired)
+        if getattr(self, "wiou", 0) == 3:
+            iou = wiou_v3(pred_bboxes[fg_mask], target_bboxes[fg_mask], xywh=False)
+        else:
+            iou = bbox_iou(pred_bboxes[fg_mask], target_bboxes[fg_mask], xywh=False, CIoU=True)
         loss_iou = ((1.0 - iou) * weight).sum() / target_scores_sum
 
         # DFL loss
@@ -358,6 +362,12 @@ class v8DetectionLoss:
             topk2=tal_topk2,
         )
         self.bbox_loss = BboxLoss(m.reg_max).to(device)
+        # pass desired wiou variant from hyperparameters if provided (e.g., h.wiou == 3)
+        try:
+            self.bbox_loss.wiou = getattr(h, "wiou", 0)
+        except Exception:
+            # safe fallback if `h` is not attribute-accessible
+            self.bbox_loss.wiou = h.get("wiou", 0) if isinstance(h, dict) else 0
         self.proj = torch.arange(m.reg_max, dtype=torch.float, device=device)
 
     def preprocess(self, targets: torch.Tensor, batch_size: int, scale_tensor: torch.Tensor) -> torch.Tensor:
