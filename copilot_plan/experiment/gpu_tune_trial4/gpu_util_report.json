@@ -1,0 +1,13 @@
+{
+  "name": "gpu_tune_trial4",
+  "model": "copilot_plan/weights/yolo26n.pt",
+  "epochs": 1,
+  "imgsz": 1024,
+  "batch": 32,
+  "workers": 12,
+  "elapsed_s": 175.4708445072174,
+  "samples": 172,
+  "avg_gpu_util": 43.23255813953488,
+  "max_gpu_util": 97,
+  "avg_gpu_mem_mb": 8833.64534883721
+}

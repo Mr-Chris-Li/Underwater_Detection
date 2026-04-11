@@ -1,0 +1,5 @@
+{
+  "name": "short_baseline",
+  "best_epoch": 10,
+  "best_mAP": 0.63135
+}

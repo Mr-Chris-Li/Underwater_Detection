@@ -1,0 +1,15 @@
+{
+  "name": "wiou_test_200",
+  "model": "copilot_plan/weights/yolo26n.pt",
+  "epochs": 200,
+  "imgsz": 640,
+  "batch": 32,
+  "workers": 8,
+  "elapsed_s": 8474.02928686142,
+  "samples": 8314,
+  "avg_gpu_util": 45.08948761125812,
+  "max_gpu_util": 94,
+  "avg_gpu_mem_mb": 9653.028145297088,
+  "best_epoch": 102,
+  "best_mAP": 0.83238
+}

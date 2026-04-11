@@ -568,6 +568,28 @@ class ChannelAttention(nn.Module):
         return x * self.act(self.fc(self.pool(x)))
 
 
+class ECA(nn.Module):
+    """Efficient Channel Attention (ECA) module.
+
+    Lightweight channel attention using a 1D convolution across channels.
+    """
+
+    def __init__(self, channels: int, k_size: int = 3):
+        super().__init__()
+        assert k_size % 2 == 1 and k_size >= 1, "k_size must be odd positive"
+        self.pool = nn.AdaptiveAvgPool2d(1)
+        self.conv = nn.Conv1d(1, 1, kernel_size=k_size, padding=(k_size - 1) // 2, bias=False)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # x: (B, C, H, W) -> y: (B, 1, C)
+        y = self.pool(x)  # (B, C, 1, 1)
+        y = y.squeeze(-1).permute(0, 2, 1)  # (B, 1, C)
+        y = self.conv(y)  # (B, 1, C)
+        y = y.permute(0, 2, 1).unsqueeze(-1)  # (B, C, 1, 1)
+        return x * self.sigmoid(y)
+
+
 class SpatialAttention(nn.Module):
     """Spatial-attention module for feature recalibration.
 

@@ -1,0 +1,5 @@
+{
+  "name": "eca_test",
+  "best_epoch": 10,
+  "best_mAP": 0.65721
+}

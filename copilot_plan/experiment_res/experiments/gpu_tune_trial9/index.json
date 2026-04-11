@@ -1,0 +1,5 @@
+{
+  "name": "gpu_tune_trial9",
+  "best_epoch": 1,
+  "best_mAP": 0.24412
+}

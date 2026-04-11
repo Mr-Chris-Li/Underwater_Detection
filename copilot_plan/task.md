@@ -65,3 +65,22 @@
 2. **推理速度分析**：
    - 编写脚本统计 100 帧图像的平均推理延迟。
    - 对比 FP32 与 FP16 在 RTX 显卡上的性能增益（FPS）。
+
+------
+
+### 实验结果存档规则
+
+- 所有自动或手动生成的实验报告/评估文件应集中存放于 `copilot_plan/experiment_res/`。
+- 命名格式：`experiment_YYYYMMDDhhmm.md`，其中时间使用生成时间（24 小时制），例如 `experiment_202604092329.md`。
+- 若同一分钟内有多份报告，请在文件名后添加后缀 `_v2`、`_v3` 等以示区分，例如 `experiment_202604092329_v2.md`。
+- 所有相关脚本应在生成报告后将报告移动并重命名到该目录，且在 `copilot_plan/task.md` 中记录此次变更（如本次所示）。
+
+------
+
+### 自动化后续任务（由 Copilot 触发）
+
+A. 规范化并聚合 `results.csv`：扫描所有 run 的 `results.csv`，统一列名（例如把 mAP@0.5 标准化为 `mAP50`），并在 `copilot_plan/experiment_res/csv/` 下生成每个 run 的 `_mAP50.csv` 与 `_loss.csv`，最后重新生成比较图 `mAP50_comparison.png` 与 `loss_comparison.png`。
+
+B. 为每个 run 生成索引并同步关键文件：在 `copilot_plan/experiment/` 下为每个 run 建立子目录（如 `copilot_plan/experiment/eca_test_200/`），并将该 run 的 `results.csv`、`gpu_util_report.json`、`weights/best.pt`（如存在）复制或索引到该目录，同时生成 `index.json` 包含 run 名、best_epoch、best_mAP、路径等元信息。
+
+C. 复现 `eca_test` 在 200 epoch 预算下：使用现有 `monitor_and_train.py` 启动 `eca_test_200`（参数 `--epochs 200 --imgsz 640 --batch 32 --workers 8 --gpu 0 --name eca_test_200 --patience 10`），并确保训练过程产生的 `results.csv` 与 `gpu_util_report.json` 被纳入上面的索引同步流程。
