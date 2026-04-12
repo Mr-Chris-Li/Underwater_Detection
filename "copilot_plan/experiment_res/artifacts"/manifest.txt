@@ -1,0 +1,24 @@
+Files copied to "copilot_plan/experiment_res/artifacts":
+"copilot_plan/experiment_res/artifacts"/monitor_and_train.py
+"copilot_plan/experiment_res/artifacts"/agent_log.md
+"copilot_plan/experiment_res/artifacts"/models/yolo11_eca.yaml
+"copilot_plan/experiment_res/artifacts"/weights/eca_repro_full_best.pt
+"copilot_plan/experiment_res/artifacts"/weights/wiou_eca_ablation_full_best.pt
+"copilot_plan/experiment_res/artifacts"/weights/wiou_test_200_best.onnx
+"copilot_plan/experiment_res/artifacts"/weights/onnx_bench_results.json
+"copilot_plan/experiment_res/artifacts"/weights/wiou_eca_ablation_full_best.onnx
+"copilot_plan/experiment_res/artifacts"/weights/baseline_200_best.pt
+"copilot_plan/experiment_res/artifacts"/weights/onnx_bench_cpu_results.json
+"copilot_plan/experiment_res/artifacts"/weights/wiou_test_200_best.pt
+"copilot_plan/experiment_res/artifacts"/weights/baseline_200_best.onnx
+"copilot_plan/experiment_res/artifacts"/weights/onnx_validation.json
+"copilot_plan/experiment_res/artifacts"/full_experiment_report.md
+"copilot_plan/experiment_res/artifacts"/experiment_summary.md
+"copilot_plan/experiment_res/artifacts"/scripts/normalize_and_aggregate.py
+"copilot_plan/experiment_res/artifacts"/scripts/export_models.py
+"copilot_plan/experiment_res/artifacts"/scripts/index_ultralytics_runs.py
+"copilot_plan/experiment_res/artifacts"/scripts/validate_onnx.py
+"copilot_plan/experiment_res/artifacts"/scripts/consolidate_to_experiment_res.py
+"copilot_plan/experiment_res/artifacts"/scripts/generate_gpu_diagnostics.py
+"copilot_plan/experiment_res/artifacts"/validation_report_onnx.md
+"copilot_plan/experiment_res/artifacts"/manifest.txt

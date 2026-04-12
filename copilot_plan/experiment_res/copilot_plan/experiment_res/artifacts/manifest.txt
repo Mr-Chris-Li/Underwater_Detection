@@ -1,0 +1,2 @@
+Files copied to copilot_plan/experiment_res/artifacts:
+copilot_plan/experiment_res/artifacts/manifest.txt
