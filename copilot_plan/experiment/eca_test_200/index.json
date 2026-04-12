@@ -1,5 +1,1 @@
-{
-  "name": "eca_test_200",
-  "best_epoch": 4,
-  "best_mAP": 0.46057
-}
+{"name": "eca_test_200", "best_epoch": 102, "best_mAP": 0.83238}

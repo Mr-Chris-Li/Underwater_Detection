@@ -1,0 +1,15 @@
+{
+  "name": "eca_repro_short",
+  "model": "copilot_plan/weights/yolo26n.pt",
+  "epochs": 50,
+  "imgsz": 640,
+  "batch": 32,
+  "workers": 8,
+  "elapsed_s": 3637.081233024597,
+  "samples": 3568,
+  "avg_gpu_util": 44.42152466367713,
+  "max_gpu_util": 94,
+  "avg_gpu_mem_mb": 8196.59865470852,
+  "best_epoch": 50,
+  "best_mAP": 0.81755
+}

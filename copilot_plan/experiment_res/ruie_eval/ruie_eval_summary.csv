@@ -1,0 +1,5 @@
+model,precision,recall,mAP50,mAP50-95
+baseline,,,,
+eca,,,,
+wiou_eca,,,,
+wiou,,,,

@@ -8,6 +8,9 @@ for name in sorted(os.listdir(EXP_DIR)):
     run_dir = os.path.join(EXP_DIR, name)
     if not os.path.isdir(run_dir):
         continue
+    # skip trial runs from tuning/benchmarks
+    if 'trial' in name.lower():
+        continue
     gj = os.path.join(run_dir, 'gpu_util_report.json')
     if not os.path.exists(gj):
         continue

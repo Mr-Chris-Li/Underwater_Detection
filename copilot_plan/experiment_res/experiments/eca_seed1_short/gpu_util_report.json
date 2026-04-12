@@ -1,0 +1,15 @@
+{
+  "name": "eca_seed1_short",
+  "model": "copilot_plan/models/yolo11_eca.yaml",
+  "epochs": 20,
+  "imgsz": 384,
+  "batch": 8,
+  "workers": 8,
+  "elapsed_s": 3667.4243705272675,
+  "samples": 3601,
+  "avg_gpu_util": 42.09414051652319,
+  "max_gpu_util": 100,
+  "avg_gpu_mem_mb": 11034.904193279644,
+  "best_epoch": 20,
+  "best_mAP": 0.44388
+}

@@ -1,0 +1,15 @@
+{
+  "name": "eca_test_diag",
+  "model": "copilot_plan/models/yolo11_eca.yaml",
+  "epochs": 20,
+  "imgsz": 384,
+  "batch": 8,
+  "workers": 8,
+  "elapsed_s": 1692.9434356689453,
+  "samples": 1666,
+  "avg_gpu_util": 18.714885954381753,
+  "max_gpu_util": 38,
+  "avg_gpu_mem_mb": 1042.7629051620647,
+  "best_epoch": 20,
+  "best_mAP": 0.47542
+}

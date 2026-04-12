@@ -1,0 +1,15 @@
+{
+  "name": "wiou_eca_ablation_full",
+  "model": "copilot_plan/models/yolo11_eca.yaml",
+  "epochs": 200,
+  "imgsz": 640,
+  "batch": 32,
+  "workers": 8,
+  "elapsed_s": 9081.224564790726,
+  "samples": 8903,
+  "avg_gpu_util": 41.95035381332135,
+  "max_gpu_util": 97,
+  "avg_gpu_mem_mb": 9064.058407278446,
+  "best_epoch": 127,
+  "best_mAP": 0.83129
+}

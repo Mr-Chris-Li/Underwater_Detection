@@ -1,0 +1,4 @@
+{
+  "model": "/ultralytics/runs/detect/copilot_plan/train_outputs/wiou_eca_ablation_full/weights/best.pt",
+  "parsed": {}
+}

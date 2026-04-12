@@ -4,24 +4,21 @@ This report aggregates `gpu_util_report.json` from each run under `copilot_plan/
 
 ## Summary
 
-- Runs found with GPU report: 7
-- Runs with non-zero avg util: 6
-- Runs with non-zero max util: 6
-- Runs with non-zero avg mem: 6
-- Avg of avg GPU util (across runs with non-zero): 32.26
-- Avg of max GPU util (across runs with non-zero): 94.83
-- Avg of avg GPU mem MB (across runs with non-zero): 8629.2 MB
+- Runs found with GPU report: 4
+- Runs with non-zero avg util: 4
+- Runs with non-zero max util: 4
+- Runs with non-zero avg mem: 4
+- Avg of avg GPU util (across runs with non-zero): 38.28
+- Avg of max GPU util (across runs with non-zero): 80.00
+- Avg of avg GPU mem MB (across runs with non-zero): 6921.7 MB
 
 ## Per-run details
 
 | Run | avg_gpu_util | max_gpu_util | avg_gpu_mem_mb | elapsed_s | samples |
 |---|---:|---:|---:|---:|---:|
-| gpu_tune_trial1 | 0.00 | 0 | 0.0 | 175.98307490348816 | 174 |
-| gpu_tune_trial2 | 21.45 | 83 | 4026.9 | 150.64807891845703 | 148 |
-| gpu_tune_trial3 | 11.66 | 95 | 8711.7 | 248.68072319030762 | 239 |
-| gpu_tune_trial4 | 43.23 | 97 | 8833.6 | 175.4708445072174 | 172 |
-| gpu_tune_trial7 | 27.49 | 100 | 11615.3 | 336.9953031539917 | 296 |
-| gpu_tune_trial8 | 44.67 | 100 | 8934.4 | 185.37437438964844 | 181 |
+| eca_repro_short | 44.42 | 94 | 8196.6 | 3637.081233024597 | 3568 |
+| eca_test_200 | 44.88 | 94 | 8794.3 | 8406.17388510704 | 8247 |
+| eca_test_diag | 18.71 | 38 | 1042.8 | 1692.9434356689453 | 1666 |
 | wiou_test_200 | 45.09 | 94 | 9653.0 | 8474.02928686142 | 8314 |
 
 ## Notes and Recommendations

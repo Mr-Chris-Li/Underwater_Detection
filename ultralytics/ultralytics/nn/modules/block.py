@@ -1132,6 +1132,8 @@ class C3k2(C2f):
                         modules.append(nn.Sequential(Bottleneck(self.c, self.c, shortcut, g), CBAM(self.c)))
                     elif key in ('channel', 'channelattention'):
                         modules.append(nn.Sequential(Bottleneck(self.c, self.c, shortcut, g), ChannelAttention(self.c)))
+                    elif key == 'eca':
+                        modules.append(nn.Sequential(Bottleneck(self.c, self.c, shortcut, g), ECA(self.c)))
                     elif key in ('spatial', 'spatialattention'):
                         modules.append(nn.Sequential(Bottleneck(self.c, self.c, shortcut, g), SpatialAttention()))
                     else:

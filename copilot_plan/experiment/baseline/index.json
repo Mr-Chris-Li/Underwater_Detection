@@ -1,5 +1,1 @@
-{
-  "name": "baseline",
-  "best_epoch": 20,
-  "best_mAP": 0.78734
-}
+{"name": "baseline", "best_epoch": 20, "best_mAP": 0.78734}

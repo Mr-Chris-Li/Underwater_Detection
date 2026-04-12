@@ -29,18 +29,24 @@ def find_results():
     # copilot local outputs
     for p in (ROOT / 'copilot_plan' / 'train_outputs').glob('*'):
         if p.is_dir() and (p / 'results.csv').exists():
+            if 'trial' in p.name.lower():
+                continue
             runs.append((p.name, p / 'results.csv'))
     # Ultralytics runs
     ul_base = ROOT / 'ultralytics' / 'runs' / 'detect' / 'copilot_plan' / 'train_outputs'
     if ul_base.exists():
         for p in ul_base.glob('*'):
             if p.is_dir() and (p / 'results.csv').exists():
+                if 'trial' in p.name.lower():
+                    continue
                 runs.append((p.name, p / 'results.csv'))
     # also check absolute /ultralytics path (training may write to root-level ultralytics)
     abs_ul = Path('/') / 'ultralytics' / 'runs' / 'detect' / 'copilot_plan' / 'train_outputs'
     if abs_ul.exists():
         for p in abs_ul.glob('*'):
             if p.is_dir() and (p / 'results.csv').exists():
+                if 'trial' in p.name.lower():
+                    continue
                 runs.append((p.name, p / 'results.csv'))
     return runs
 
@@ -114,6 +120,9 @@ def make_plots():
     df_list = []
     for f in files:
         name = f.stem.replace('_mAP50','')
+        # skip trial runs in plots
+        if 'trial' in name.lower():
+            continue
         d = pd.read_csv(f)
         d = d.dropna(subset=['mAP50'])
         if d.empty:
@@ -135,6 +144,9 @@ def make_plots():
     df_list = []
     for f in files_l:
         name = f.stem.replace('_loss','')
+        # skip trial runs in plots
+        if 'trial' in name.lower():
+            continue
         d = pd.read_csv(f)
         if 'box_loss' in d.columns:
             df_list.append((name, d.sort_values('epoch')))

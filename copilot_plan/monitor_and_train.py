@@ -34,6 +34,8 @@ def main():
     p.add_argument('--name', type=str, default='tune_gpu_test')
     p.add_argument('--interval', type=float, default=1.0)
     p.add_argument('--patience', type=int, default=None)
+    p.add_argument('--wiou', type=int, default=0, help='set BboxLoss.wiou variant (e.g., 3 for WIoU-v3)')
+    p.add_argument('--seed', type=int, default=None)
     args = p.parse_args()
 
     out_dir = Path('copilot_plan/train_outputs') / args.name
@@ -47,10 +49,30 @@ def main():
     model = YOLO(args.model)
     start = time.time()
     try:
+        # optionally enable WIoU variant by setting class attribute on BboxLoss
+        if getattr(args, 'wiou', 0):
+            try:
+                # try the canonical import first
+                from ultralytics.utils.loss import BboxLoss
+            except Exception:
+                try:
+                    from ultralytics.ultralytics.utils.loss import BboxLoss
+                except Exception as e:
+                    print('Failed to import BboxLoss to set wiou:', e)
+                    BboxLoss = None
+            try:
+                if BboxLoss is not None:
+                    BboxLoss.wiou = int(args.wiou)
+                    print(f'Set BboxLoss.wiou = {args.wiou}')
+            except Exception as e:
+                print('Failed to set BboxLoss.wiou:', e)
+        
         # build train kwargs and include patience if provided
         train_kwargs = dict(data='data/urpc.yaml', epochs=args.epochs, imgsz=args.imgsz, batch=args.batch, device=args.gpu, workers=args.workers, project=str(out_dir.parent), name=args.name, exist_ok=True, cache=False)
         if args.patience is not None:
             train_kwargs['patience'] = args.patience
+        if args.seed is not None:
+            train_kwargs['seed'] = int(args.seed)
         model.train(**train_kwargs)
     except Exception as e:
         stop_event.set()
